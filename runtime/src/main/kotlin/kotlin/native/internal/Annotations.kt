@@ -95,3 +95,8 @@ internal annotation class Escapes(val who: Int)
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.BINARY)
 internal annotation class PointsTo(vararg val onWhom: Int)
+
+
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.SOURCE)
+internal annotation class CoolIntrinsic(val kind: IntrinsicKind)

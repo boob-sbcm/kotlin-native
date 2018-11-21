@@ -113,6 +113,8 @@ internal val int16Type = LLVMInt16Type()!!
 internal val int32Type = LLVMInt32Type()!!
 internal val int64Type = LLVMInt64Type()!!
 internal val int8TypePtr = pointerType(int8Type)
+internal val floatType = LLVMFloatType()!!
+internal val doubleType = LLVMDoubleType()!!
 
 internal val voidType = LLVMVoidType()!!
 

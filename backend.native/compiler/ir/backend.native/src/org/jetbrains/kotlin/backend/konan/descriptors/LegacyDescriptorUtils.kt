@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.backend.konan.descriptors
 import org.jetbrains.kotlin.backend.common.atMostOne
 import org.jetbrains.kotlin.backend.konan.binaryTypeIsReference
 import org.jetbrains.kotlin.backend.konan.isObjCClass
+import org.jetbrains.kotlin.backend.konan.llvm.coolInstrinsicFqName
 import org.jetbrains.kotlin.backend.konan.serialization.isExported
 import org.jetbrains.kotlin.builtins.functions.FunctionClassDescriptor
 import org.jetbrains.kotlin.builtins.getFunctionalClassKind
@@ -264,6 +265,8 @@ fun CallableMemberDescriptor.externalSymbolOrThrow(): String? {
     if (this.annotations.hasAnnotation(intrinsicAnnotation)) return null
 
     if (this.annotations.hasAnnotation(objCMethodAnnotation)) return null
+
+    if (this.annotations.hasAnnotation(coolInstrinsicFqName)) return null
 
     throw Error("external function ${this} must have @SymbolName, @Intrinsic or @ObjCMethod annotation")
 }

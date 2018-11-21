@@ -6,6 +6,8 @@
 package kotlin
 
 import kotlin.native.internal.NumberConverter
+import kotlin.native.internal.CoolIntrinsic
+import kotlin.native.internal.IntrinsicKind
 
 /**
  * Represents a 8-bit signed integer.
@@ -491,61 +493,61 @@ public final class Int private constructor(private val value: kotlin.native.inte
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Int_compareTo_Byte")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Byte): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Int_compareTo_Short")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Short): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Int_compareTo_Int")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public override operator fun compareTo(other: Int): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Int_compareTo_Long")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Long): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Int_compareTo_Float")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Float): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Int_compareTo_Double")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Double): Int
 
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Int_plus_Byte")
+    @CoolIntrinsic(IntrinsicKind.ADD)
     external public operator fun plus(other: Byte): Int
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Int_plus_Short")
+    @CoolIntrinsic(IntrinsicKind.ADD)
     external public operator fun plus(other: Short): Int
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Int_plus_Int")
+    @CoolIntrinsic(IntrinsicKind.ADD)
     external public operator fun plus(other: Int): Int
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Int_plus_Long")
+    @CoolIntrinsic(IntrinsicKind.ADD)
     external public operator fun plus(other: Long): Long
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Int_plus_Float")
+    @CoolIntrinsic(IntrinsicKind.ADD)
     external public operator fun plus(other: Float): Float
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Int_plus_Double")
+    @CoolIntrinsic(IntrinsicKind.ADD)
     external public operator fun plus(other: Double): Double
 
     /** Subtracts the other value from this value. */

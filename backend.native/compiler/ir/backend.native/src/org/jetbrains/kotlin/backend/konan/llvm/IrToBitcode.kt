@@ -292,6 +292,8 @@ internal class CodeGeneratorVisitor(val context: Context, val lifetimes: Map<IrE
 
     val codegen = CodeGenerator(context)
 
+    val intrinsicGenerator = IntrinsicGenerator(codegen)
+
     //-------------------------------------------------------------------------//
 
     // TODO: consider eliminating mutable state
@@ -720,6 +722,9 @@ internal class CodeGeneratorVisitor(val context: Context, val lifetimes: Map<IrE
 
     override fun visitFunction(declaration: IrFunction) {
         context.log{"visitFunction                  : ${ir2string(declaration)}"}
+
+        if (intrinsicGenerator.tryGenerate(declaration)) return
+
         val body = declaration.body
 
         if (declaration.descriptor.modality == Modality.ABSTRACT) return
