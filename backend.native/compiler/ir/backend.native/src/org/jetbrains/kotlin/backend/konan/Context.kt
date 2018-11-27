@@ -458,7 +458,7 @@ internal class Context(config: KonanConfig) : KonanBackendContext(config) {
 
     fun verifyBitCode() {
         if (llvmModule == null) return
-        verifyModule(llvmModule!!)
+        verifyModule(llvmModule!!, this)
     }
 
     fun printBitCode() {

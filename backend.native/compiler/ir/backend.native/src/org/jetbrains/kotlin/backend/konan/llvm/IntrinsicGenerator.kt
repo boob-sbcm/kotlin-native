@@ -1,5 +1,6 @@
 package org.jetbrains.kotlin.backend.konan.llvm
 
+import kotlinx.cinterop.toCValues
 import llvm.*
 import org.jetbrains.kotlin.ir.declarations.IrFunction
 import org.jetbrains.kotlin.ir.util.hasAnnotation
@@ -10,11 +11,16 @@ internal val coolInstrinsicFqName = FqName("kotlin.native.internal.CoolIntrinsic
 
 // TODO: Reuse IntrinsicKind in runtime and compiler
 enum class IntrinsicKind {
-    ADD,
+    PLUS,
+    MINUS,
+    TIMES,
+    DIV,
     COMPARE_TO
 }
 
 internal class IntrinsicGenerator(val codegen: CodeGenerator) {
+
+    val context = codegen.context
 
     private fun getIntrinsicKind(function: IrFunction): IntrinsicKind {
         val annotation = function.descriptor.annotations.findAnnotation(coolInstrinsicFqName)!!
@@ -26,14 +32,22 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
         if (!function.hasAnnotation(coolInstrinsicFqName))
             false
         else when (getIntrinsicKind(function)) {
-            IntrinsicKind.ADD -> emitAdd(function)
+            IntrinsicKind.PLUS -> emitAdd(function)
             IntrinsicKind.COMPARE_TO -> emitCompareTo(function)
+            IntrinsicKind.MINUS -> emitMinus(function)
+            IntrinsicKind.TIMES -> emitTimes(function)
+            IntrinsicKind.DIV -> emitDiv(function)
         }
 
-    private fun castParameters(builder: LLVMBuilderRef, function: IrFunction): Pair<LLVMValueRef, LLVMValueRef> {
+    private fun castParameters(builder: LLVMBuilderRef, function: IrFunction, useReturnType: Boolean): Pair<LLVMValueRef, LLVMValueRef> {
         val first = codegen.param(function, 0)
         val second = codegen.param(function, 1)
-        val unifiedType = findUnifiedType(first.type, second.type)
+        val unifiedType = if (useReturnType) {
+            val llvmFunctionTy = getFunctionType(codegen.llvmFunction(function))
+            LLVMGetReturnType(llvmFunctionTy)!!
+        } else {
+            findUnifiedType(first.type, second.type)
+        }
         val firstResult = cast(builder, first, unifiedType)
         val secondResult = cast(builder, second, unifiedType)
         return firstResult to secondResult
@@ -77,40 +91,99 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
         error("Unexpected types: $firstTy $secondTy")
     }
 
-    //TODO: Add always_inline, debug info.
-    private fun emitAdd(function: IrFunction): Boolean {
+    private fun binopPrologue(function: IrFunction): LLVMBuilderRef {
         val llvmFunction = codegen.llvmFunction(function)
-        // TODO: Refactor CodeGenerator.kt so it can be reused here.
         val builder = LLVMCreateBuilder()!!
         val bb = LLVMAppendBasicBlock(llvmFunction, "entry")!!
         LLVMPositionBuilderAtEnd(builder, bb)
+        return builder
+    }
 
-        val (first, second) = castParameters(builder, function)
+    //TODO: Add always_inline, debug info.
+    private fun emitAdd(function: IrFunction): Boolean {
+        val builder = binopPrologue(function)
 
-        val sum = LLVMBuildAdd(builder, first, second, "sum")
-        LLVMBuildRet(builder, sum)
+        val (first, second) = castParameters(builder, function, useReturnType=true)
+
+        val result = if (first.type.isFloatingPoint()) {
+            LLVMBuildFAdd(builder, first, second, "")
+        } else {
+            LLVMBuildAdd(builder, first, second, "")
+        }
+        LLVMBuildRet(builder, result)
+        return true
+    }
+
+    private fun emitMinus(function: IrFunction): Boolean {
+        val builder = binopPrologue(function)
+
+        val (first, second) = castParameters(builder, function, useReturnType=true)
+
+        val result = if (first.type.isFloatingPoint()) {
+            LLVMBuildFSub(builder, first, second, "")
+        } else {
+            LLVMBuildSub(builder, first, second, "")
+        }
+        LLVMBuildRet(builder, result)
+        return true
+    }
+
+    private fun emitTimes(function: IrFunction): Boolean {
+        val builder = binopPrologue(function)
+
+        val (first, second) = castParameters(builder, function, useReturnType=true)
+
+        val result = if (first.type.isFloatingPoint()) {
+            LLVMBuildFMul(builder, first, second, "")
+        } else {
+            LLVMBuildMul(builder, first, second, "")
+        }
+        LLVMBuildRet(builder, result)
+        return true
+    }
+
+    private fun emitDiv(function: IrFunction): Boolean {
+        val llvmFunction = codegen.llvmFunction(function)
+        val builder = binopPrologue(function)
+        val validArgBb = LLVMAppendBasicBlock(llvmFunction, "")!!
+        val invalidArgBb = LLVMAppendBasicBlock(llvmFunction, "")!!
+
+        val sp = codegen.param(function, 1)
+        val isZero = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntEQ, sp, Zero(sp.type).llvm, "")!!
+        LLVMBuildCondBr(builder, isZero, invalidArgBb, validArgBb)
+
+        LLVMPositionBuilderAtEnd(builder, validArgBb)
+        val (first, second) = castParameters(builder, function, useReturnType=true)
+
+        val result = if (first.type.isFloatingPoint()) {
+            LLVMBuildFDiv(builder, first, second, "")
+        } else {
+            LLVMBuildSDiv(builder, first, second, "")
+        }
+        LLVMBuildRet(builder, result)
+
+        LLVMPositionBuilderAtEnd(builder, invalidArgBb)
+        val throwArthExc = codegen.llvmFunction(context.ir.symbols.throwArithmeticException.owner)
+        LLVMBuildCall(builder, throwArthExc, emptyList<LLVMValueRef>().toCValues(), 0, "")
+        LLVMBuildUnreachable(builder)
+
         return true
     }
 
     private fun emitCompareTo(function: IrFunction): Boolean {
-        val llvmFunction = codegen.llvmFunction(function)
+        val builder = binopPrologue(function)
 
-        val builder = LLVMCreateBuilder()!!
-        val bb = LLVMAppendBasicBlock(llvmFunction, "")!!
-        LLVMPositionBuilderAtEnd(builder, bb)
-
-        val (first, second) = castParameters(builder, function)
+        val (first, second) = castParameters(builder, function, useReturnType=false)
 
         val equal: LLVMValueRef
         val less: LLVMValueRef
         if (first.type.isFloatingPoint()) {
-            equal = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntEQ, first, second, "")!!
-            less = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntSLT, first, second, "")!!
-        } else {
             equal = LLVMBuildFCmp(builder, LLVMRealPredicate.LLVMRealOEQ, first, second, "")!!
             less = LLVMBuildFCmp(builder, LLVMRealPredicate.LLVMRealOLT, first, second, "")!!
+        } else {
+            equal = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntEQ, first, second, "")!!
+            less = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntSLT, first, second, "")!!
         }
-
         val tt = LLVMBuildSelect(builder, less, Int32(1).llvm, Int32(-1).llvm, "")
         val result = LLVMBuildSelect(builder, equal, Int32(0).llvm, tt, "")
         LLVMBuildRet(builder, result)

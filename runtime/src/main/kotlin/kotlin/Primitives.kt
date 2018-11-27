@@ -532,79 +532,79 @@ public final class Int private constructor(private val value: kotlin.native.inte
     external public operator fun compareTo(other: Double): Int
 
     /** Adds the other value to this value. */
-    @CoolIntrinsic(IntrinsicKind.ADD)
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Byte): Int
     /** Adds the other value to this value. */
-    @CoolIntrinsic(IntrinsicKind.ADD)
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Short): Int
     /** Adds the other value to this value. */
-    @CoolIntrinsic(IntrinsicKind.ADD)
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Int): Int
     /** Adds the other value to this value. */
-    @CoolIntrinsic(IntrinsicKind.ADD)
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Long): Long
     /** Adds the other value to this value. */
-    @CoolIntrinsic(IntrinsicKind.ADD)
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Float): Float
     /** Adds the other value to this value. */
-    @CoolIntrinsic(IntrinsicKind.ADD)
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Double): Double
 
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Int_minus_Byte")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Byte): Int
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Int_minus_Short")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Short): Int
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Int_minus_Int")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Int): Int
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Int_minus_Long")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Long): Long
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Int_minus_Float")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Float): Float
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Int_minus_Double")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Double): Double
 
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Int_times_Byte")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Byte): Int
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Int_times_Short")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Short): Int
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Int_times_Int")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Int): Int
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Int_times_Long")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Long): Long
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Int_times_Float")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Float): Float
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Int_times_Double")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Double): Double
 
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Int_div_Byte")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Byte): Int
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Int_div_Short")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Short): Int
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Int_div_Int")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Int): Int
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Int_div_Long")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Long): Long
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Int_div_Float")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Float): Float
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Int_div_Double")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Double): Double
 
     /** Calculates the remainder of dividing this value by the other value. */

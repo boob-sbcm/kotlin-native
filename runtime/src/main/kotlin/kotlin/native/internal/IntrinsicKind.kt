@@ -1,6 +1,9 @@
 package kotlin.native.internal
 
 enum class IntrinsicKind {
-    ADD,
+    PLUS,
+    MINUS,
+    TIMES,
+    DIV,
     COMPARE_TO
 }
