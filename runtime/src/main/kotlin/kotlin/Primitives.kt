@@ -43,165 +43,165 @@ public final class Byte private constructor(private val value: kotlin.native.int
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Byte_compareTo_Byte")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public override operator fun compareTo(other: Byte): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Byte_compareTo_Short")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Short): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Byte_compareTo_Int")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Int): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Byte_compareTo_Long")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Long): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Byte_compareTo_Float")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Float): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Byte_compareTo_Double")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Double): Int
 
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Byte_plus_Byte")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Byte): Int
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Byte_plus_Short")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Short): Int
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Byte_plus_Int")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Int): Int
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Byte_plus_Long")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Long): Long
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Byte_plus_Float")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Float): Float
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Byte_plus_Double")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Double): Double
 
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Byte_minus_Byte")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Byte): Int
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Byte_minus_Short")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Short): Int
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Byte_minus_Int")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Int): Int
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Byte_minus_Long")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Long): Long
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Byte_minus_Float")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Float): Float
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Byte_minus_Double")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Double): Double
 
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Byte_times_Byte")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Byte): Int
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Byte_times_Short")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Short): Int
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Byte_times_Int")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Int): Int
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Byte_times_Long")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Long): Long
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Byte_times_Float")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Float): Float
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Byte_times_Double")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Double): Double
 
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Byte_div_Byte")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Byte): Int
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Byte_div_Short")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Short): Int
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Byte_div_Int")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Int): Int
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Byte_div_Long")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Long): Long
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Byte_div_Float")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Float): Float
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Byte_div_Double")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Double): Double
 
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Byte_mod_Byte")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Byte): Int
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Byte_mod_Short")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Short): Int
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Byte_mod_Int")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Int): Int
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Byte_mod_Long")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Long): Long
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Byte_mod_Float")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Float): Float
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Byte_mod_Double")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Double): Double
 
     /** Increments this value. */
-    @SymbolName("Kotlin_Byte_inc")
+    @CoolIntrinsic(IntrinsicKind.INC)
     external public operator fun inc(): Byte
     /** Decrements this value. */
-    @SymbolName("Kotlin_Byte_dec")
+    @CoolIntrinsic(IntrinsicKind.DEC)
     external public operator fun dec(): Byte
     /** Returns this value. */
-    @SymbolName("Kotlin_Byte_unaryPlus")
+    @CoolIntrinsic(IntrinsicKind.UNARY_PLUS)
     external public operator fun unaryPlus(): Int
     /** Returns the negative of this value. */
-    @SymbolName("Kotlin_Byte_unaryMinus")
+    @CoolIntrinsic(IntrinsicKind.UNARY_MINUS)
     external public operator fun unaryMinus(): Int
 
-    @SymbolName("Kotlin_Byte_toByte")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toByte(): Byte
-    @SymbolName("Kotlin_Byte_toChar")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toChar(): Char
-    @SymbolName("Kotlin_Byte_toShort")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toShort(): Short
-    @SymbolName("Kotlin_Byte_toInt")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toInt(): Int
-    @SymbolName("Kotlin_Byte_toLong")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toLong(): Long
-    @SymbolName("Kotlin_Byte_toFloat")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toFloat(): Float
-    @SymbolName("Kotlin_Byte_toDouble")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toDouble(): Double
 
     /** Creates a range from this value to the specified [other] value. */
@@ -268,150 +268,150 @@ public final class Short private constructor(private val value: kotlin.native.in
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Short_compareTo_Byte")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Byte): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Short_compareTo_Short")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public override operator fun compareTo(other: Short): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Short_compareTo_Int")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Int): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Short_compareTo_Long")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Long): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Short_compareTo_Float")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Float): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Short_compareTo_Double")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Double): Int
 
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Short_plus_Byte")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Byte): Int
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Short_plus_Short")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Short): Int
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Short_plus_Int")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Int): Int
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Short_plus_Long")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Long): Long
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Short_plus_Float")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Float): Float
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Short_plus_Double")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Double): Double
 
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Short_minus_Byte")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Byte): Int
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Short_minus_Short")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Short): Int
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Short_minus_Int")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Int): Int
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Short_minus_Long")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Long): Long
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Short_minus_Float")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Float): Float
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Short_minus_Double")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Double): Double
 
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Short_times_Byte")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Byte): Int
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Short_times_Short")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Short): Int
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Short_times_Int")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Int): Int
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Short_times_Long")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Long): Long
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Short_times_Float")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Float): Float
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Short_times_Double")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Double): Double
 
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Short_div_Byte")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Byte): Int
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Short_div_Short")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Short): Int
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Short_div_Int")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Int): Int
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Short_div_Long")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Long): Long
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Short_div_Float")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Float): Float
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Short_div_Double")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Double): Double
 
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Short_mod_Byte")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Byte): Int
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Short_mod_Short")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Short): Int
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Short_mod_Int")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Int): Int
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Short_mod_Long")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Long): Long
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Short_mod_Float")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Float): Float
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Short_mod_Double")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Double): Double
 
     /** Increments this value. */
-    @SymbolName("Kotlin_Short_inc")
+    @CoolIntrinsic(IntrinsicKind.INC)
     external public operator fun inc(): Short
     /** Decrements this value. */
-    @SymbolName("Kotlin_Short_dec")
+    @CoolIntrinsic(IntrinsicKind.DEC)
     external public operator fun dec(): Short
     /** Returns this value. */
-    @SymbolName("Kotlin_Short_unaryPlus")
+    @CoolIntrinsic(IntrinsicKind.UNARY_PLUS)
     external public operator fun unaryPlus(): Int
     /** Returns the negative of this value. */
-    @SymbolName("Kotlin_Short_unaryMinus")
+    @CoolIntrinsic(IntrinsicKind.UNARY_MINUS)
     external public operator fun unaryMinus(): Int
 
     /** Creates a range from this value to the specified [other] value. */
@@ -431,19 +431,19 @@ public final class Short private constructor(private val value: kotlin.native.in
         return LongRange(this.toLong(), other.toLong())
     }
 
-    @SymbolName("Kotlin_Short_toByte")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toByte(): Byte
-    @SymbolName("Kotlin_Short_toChar")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toChar(): Char
-    @SymbolName("Kotlin_Short_toShort")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toShort(): Short
-    @SymbolName("Kotlin_Short_toInt")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toInt(): Int
-    @SymbolName("Kotlin_Short_toLong")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toLong(): Long
-    @SymbolName("Kotlin_Short_toFloat")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toFloat(): Float
-    @SymbolName("Kotlin_Short_toDouble")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toDouble(): Double
 
     // Konan-specific.
@@ -608,57 +608,57 @@ public final class Int private constructor(private val value: kotlin.native.inte
     external public operator fun div(other: Double): Double
 
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Int_mod_Byte")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Byte): Int
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Int_mod_Short")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Short): Int
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Int_mod_Int")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Int): Int
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Int_mod_Long")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Long): Long
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Int_mod_Float")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Float): Float
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Int_mod_Double")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Double): Double
 
     /** Increments this value. */
-    @SymbolName("Kotlin_Int_inc")
+    @CoolIntrinsic(IntrinsicKind.INC)
     external public operator fun inc(): Int
     /** Decrements this value. */
-    @SymbolName("Kotlin_Int_dec")
+    @CoolIntrinsic(IntrinsicKind.DEC)
     external public operator fun dec(): Int
     /** Returns this value. */
-    @SymbolName("Kotlin_Int_unaryPlus")
+    @CoolIntrinsic(IntrinsicKind.UNARY_PLUS)
     external public operator fun unaryPlus(): Int
     /** Returns the negative of this value. */
-    @SymbolName("Kotlin_Int_unaryMinus")
+    @CoolIntrinsic(IntrinsicKind.UNARY_MINUS)
     external public operator fun unaryMinus(): Int
 
     /** Shifts this value left by the [bitCount] number of bits. */
-    @SymbolName("Kotlin_Int_shl_Int")
+    @CoolIntrinsic(IntrinsicKind.SHL)
     external public infix fun shl(bitCount: Int): Int
     /** Shifts this value right by the [bitCount] number of bits, filling the leftmost bits with copies of the sign bit. */
-    @SymbolName("Kotlin_Int_shr_Int")
+    @CoolIntrinsic(IntrinsicKind.SHR)
     external public infix fun shr(bitCount: Int): Int
     /** Shifts this value right by the [bitCount] number of bits, filling the leftmost bits with zeros. */
-    @SymbolName("Kotlin_Int_ushr_Int")
+    @CoolIntrinsic(IntrinsicKind.USHR)
     external public infix fun ushr(bitCount: Int): Int
     /** Performs a bitwise AND operation between the two values. */
-    @SymbolName("Kotlin_Int_and_Int")
+    @CoolIntrinsic(IntrinsicKind.AND)
     external public infix fun and(other: Int): Int
     /** Performs a bitwise OR operation between the two values. */
-    @SymbolName("Kotlin_Int_or_Int")
+    @CoolIntrinsic(IntrinsicKind.OR)
     external public infix fun or(other: Int): Int
     /** Performs a bitwise XOR operation between the two values. */
-    @SymbolName("Kotlin_Int_xor_Int")
+    @CoolIntrinsic(IntrinsicKind.XOR)
     external public infix fun xor(other: Int): Int
     /** Inverts the bits in this value. */
-    @SymbolName("Kotlin_Int_inv")
+    @CoolIntrinsic(IntrinsicKind.INV)
     external public fun inv(): Int
 
     /** Creates a range from this value to the specified [other] value. */
@@ -678,19 +678,19 @@ public final class Int private constructor(private val value: kotlin.native.inte
         return LongRange(this.toLong(), other.toLong())
     }
 
-    @SymbolName("Kotlin_Int_toByte")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toByte(): Byte
-    @SymbolName("Kotlin_Int_toChar")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toChar(): Char
-    @SymbolName("Kotlin_Int_toShort")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toShort(): Short
-    @SymbolName("Kotlin_Int_toInt")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toInt(): Int
-    @SymbolName("Kotlin_Int_toLong")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toLong(): Long
-    @SymbolName("Kotlin_Int_toFloat")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toFloat(): Float
-    @SymbolName("Kotlin_Int_toDouble")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toDouble(): Double
 
     // Konan-specific.
@@ -740,150 +740,150 @@ public final class Long private constructor(private val value: kotlin.native.int
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Long_compareTo_Byte")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Byte): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Long_compareTo_Short")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Short): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Long_compareTo_Int")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Int): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Long_compareTo_Long")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public override operator fun compareTo(other: Long): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Long_compareTo_Float")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Float): Int
     /**
      * Compares this value with the specified value for order.
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Long_compareTo_Double")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public operator fun compareTo(other: Double): Int
 
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Long_plus_Byte")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Byte): Long
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Long_plus_Short")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Short): Long
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Long_plus_Int")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Int): Long
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Long_plus_Long")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Long): Long
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Long_plus_Float")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Float): Float
     /** Adds the other value to this value. */
-    @SymbolName("Kotlin_Long_plus_Double")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Double): Double
 
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Long_minus_Byte")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Byte): Long
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Long_minus_Short")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Short): Long
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Long_minus_Int")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Int): Long
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Long_minus_Long")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Long): Long
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Long_minus_Float")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Float): Float
     /** Subtracts the other value from this value. */
-    @SymbolName("Kotlin_Long_minus_Double")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Double): Double
 
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Long_times_Byte")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Byte): Long
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Long_times_Short")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Short): Long
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Long_times_Int")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Int): Long
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Long_times_Long")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Long): Long
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Long_times_Float")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Float): Float
     /** Multiplies this value by the other value. */
-    @SymbolName("Kotlin_Long_times_Double")
+    @CoolIntrinsic(IntrinsicKind.TIMES)
     external public operator fun times(other: Double): Double
 
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Long_div_Byte")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Byte): Long
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Long_div_Short")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Short): Long
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Long_div_Int")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Int): Long
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Long_div_Long")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Long): Long
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Long_div_Float")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Float): Float
     /** Divides this value by the other value. */
-    @SymbolName("Kotlin_Long_div_Double")
+    @CoolIntrinsic(IntrinsicKind.DIV)
     external public operator fun div(other: Double): Double
 
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Long_mod_Byte")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Byte): Long
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Long_mod_Short")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Short): Long
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Long_mod_Int")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Int): Long
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Long_mod_Long")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Long): Long
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Long_mod_Float")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Float): Float
     /** Calculates the remainder of dividing this value by the other value. */
-    @SymbolName("Kotlin_Long_mod_Double")
+    @CoolIntrinsic(IntrinsicKind.REM)
     external public operator fun rem(other: Double): Double
 
     /** Increments this value. */
-    @SymbolName("Kotlin_Long_inc")
+    @CoolIntrinsic(IntrinsicKind.INC)
     external public operator fun inc(): Long
     /** Decrements this value. */
-    @SymbolName("Kotlin_Long_dec")
+    @CoolIntrinsic(IntrinsicKind.DEC)
     external public operator fun dec(): Long
     /** Returns this value. */
-    @SymbolName("Kotlin_Long_unaryPlus")
+    @CoolIntrinsic(IntrinsicKind.UNARY_PLUS)
     external public operator fun unaryPlus(): Long
     /** Returns the negative of this value. */
-    @SymbolName("Kotlin_Long_unaryMinus")
+    @CoolIntrinsic(IntrinsicKind.UNARY_MINUS)
     external public operator fun unaryMinus(): Long
 
     /** Creates a range from this value to the specified [other] value. */
@@ -904,40 +904,40 @@ public final class Long private constructor(private val value: kotlin.native.int
     }
 
     /** Shifts this value left by the [bitCount] number of bits. */
-    @SymbolName("Kotlin_Long_shl_Int")
+    @CoolIntrinsic(IntrinsicKind.SHL)
     external public infix fun shl(bitCount: Int): Long
     /** Shifts this value right by the [bitCount] number of bits, filling the leftmost bits with copies of the sign bit. */
-    @SymbolName("Kotlin_Long_shr_Int")
+    @CoolIntrinsic(IntrinsicKind.SHR)
     external public infix fun shr(bitCount: Int): Long
     /** Shifts this value right by the [bitCount] number of bits, filling the leftmost bits with zeros. */
-    @SymbolName("Kotlin_Long_ushr_Int")
+    @CoolIntrinsic(IntrinsicKind.USHR)
     external public infix fun ushr(bitCount: Int): Long
     /** Performs a bitwise AND operation between the two values. */
-    @SymbolName("Kotlin_Long_and_Long")
+    @CoolIntrinsic(IntrinsicKind.AND)
     external public infix fun and(other: Long): Long
     /** Performs a bitwise OR operation between the two values. */
-    @SymbolName("Kotlin_Long_or_Long")
+    @CoolIntrinsic(IntrinsicKind.OR)
     external public infix fun or(other: Long): Long
     /** Performs a bitwise XOR operation between the two values. */
-    @SymbolName("Kotlin_Long_xor_Long")
+    @CoolIntrinsic(IntrinsicKind.XOR)
     external public infix fun xor(other: Long): Long
     /** Inverts the bits in this value. */
-    @SymbolName("Kotlin_Long_inv")
+    @CoolIntrinsic(IntrinsicKind.INV)
     external public fun inv(): Long
 
-    @SymbolName("Kotlin_Long_toByte")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toByte(): Byte
-    @SymbolName("Kotlin_Long_toChar")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toChar(): Char
-    @SymbolName("Kotlin_Long_toShort")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toShort(): Short
-    @SymbolName("Kotlin_Long_toInt")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toInt(): Int
-    @SymbolName("Kotlin_Long_toLong")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toLong(): Long
-    @SymbolName("Kotlin_Long_toFloat")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toFloat(): Float
-    @SymbolName("Kotlin_Long_toDouble")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public override fun toDouble(): Double
 
     // Konan-specific.
