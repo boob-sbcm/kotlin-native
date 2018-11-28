@@ -36,6 +36,8 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
 
     val context = codegen.context
 
+    private val typesOrder = arrayOf(int1Type, int8Type, int16Type, int32Type, int64Type)
+
     private fun getIntrinsicKind(function: IrFunction): IntrinsicKind {
         val annotation = function.descriptor.annotations.findAnnotation(coolInstrinsicFqName)!!
         val value = annotation.allValueArguments[Name.identifier("kind")]!!.value as Pair<*, Name>
@@ -70,7 +72,12 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
         }
 
     private fun emitPrimitiveCast(function: IrFunction) {
-
+        val builder = binopPrologue(function)
+        val value = codegen.param(function, 0)
+        val llvmFunctionTy = getFunctionType(codegen.llvmFunction(function))
+        val destTy = LLVMGetReturnType(llvmFunctionTy)!!
+        val result = cast(builder, value, destTy)
+        LLVMBuildRet(builder, result)
     }
 
     private fun emitShl(function: IrFunction) {
@@ -321,8 +328,7 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
 
     // Assuming that both types are i*
     private fun compareIntegralTypes(firstTy: LLVMTypeRef, secondTy: LLVMTypeRef): Int {
-        val order = arrayOf(int1Type, int8Type, int16Type, int32Type, int64Type)
-        return order.indexOf(firstTy).compareTo(order.indexOf(secondTy))
+        return typesOrder.indexOf(firstTy).compareTo(typesOrder.indexOf(secondTy))
     }
 
     private fun cast(builder: LLVMBuilderRef, value: LLVMValueRef, destTy: LLVMTypeRef): LLVMValueRef {
