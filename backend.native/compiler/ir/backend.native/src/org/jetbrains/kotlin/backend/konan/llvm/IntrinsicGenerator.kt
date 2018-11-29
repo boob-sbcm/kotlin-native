@@ -36,7 +36,8 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
 
     val context = codegen.context
 
-    private val typesOrder = arrayOf(int1Type, int8Type, int16Type, int32Type, int64Type)
+    private val integralTypesOrder = arrayOf(int1Type, int8Type, int16Type, int32Type, int64Type)
+    private val realTypesOrder = arrayOf(floatType, doubleType)
 
     private fun getIntrinsicKind(function: IrFunction): IntrinsicKind {
         val annotation = function.descriptor.annotations.findAnnotation(coolInstrinsicFqName)!!
@@ -49,7 +50,7 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
             false
         } else {
             when (getIntrinsicKind(function)) {
-                IntrinsicKind.PLUS -> emitAdd(function)
+                IntrinsicKind.PLUS -> emitPlus(function)
                 IntrinsicKind.MINUS -> emitMinus(function)
                 IntrinsicKind.TIMES -> emitTimes(function)
                 IntrinsicKind.DIV -> emitDiv(function)
@@ -158,7 +159,7 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
     }
 
     //TODO: Add always_inline, debug info.
-    private fun emitAdd(function: IrFunction) {
+    private fun emitPlus(function: IrFunction) {
         val builder = binopPrologue(function)
         val (first, second) = castParameters(builder, function, useReturnType=true)
         val result = if (first.type.isFloatingPoint()) {
@@ -269,13 +270,19 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
 
     private fun emitUnaryPlus(function: IrFunction) {
         val builder = binopPrologue(function)
-        val first = codegen.param(function, 0)
-        LLVMBuildRet(builder, first)
+        val value = codegen.param(function, 0)
+        val llvmFunctionTy = getFunctionType(codegen.llvmFunction(function))
+        val destTy = LLVMGetReturnType(llvmFunctionTy)!!
+        val result = cast(builder, value, destTy)
+        LLVMBuildRet(builder, result)
     }
 
     private fun emitUnaryMinus(function: IrFunction) {
         val builder = binopPrologue(function)
-        val first = codegen.param(function, 0)
+        val value = codegen.param(function, 0)
+        val llvmFunctionTy = getFunctionType(codegen.llvmFunction(function))
+        val destTy = LLVMGetReturnType(llvmFunctionTy)!!
+        val first = cast(builder, value, destTy)
         val const0 = makeConstOfType(first.type, 0)
         val result = if (first.type.isFloatingPoint()) {
             LLVMBuildFSub(builder, first, const0, "")
@@ -328,7 +335,7 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
 
     // Assuming that both types are i*
     private fun compareIntegralTypes(firstTy: LLVMTypeRef, secondTy: LLVMTypeRef): Int {
-        return typesOrder.indexOf(firstTy).compareTo(typesOrder.indexOf(secondTy))
+        return integralTypesOrder.indexOf(firstTy).compareTo(integralTypesOrder.indexOf(secondTy))
     }
 
     private fun cast(builder: LLVMBuilderRef, value: LLVMValueRef, destTy: LLVMTypeRef): LLVMValueRef {
