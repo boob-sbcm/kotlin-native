@@ -5,6 +5,9 @@
 
 package kotlin
 
+import kotlin.native.internal.CoolIntrinsic
+import kotlin.native.internal.IntrinsicKind
+
 /**
  * Represents a 16-bit Unicode character.
  */
@@ -16,25 +19,25 @@ public class Char private constructor(
      * Returns zero if this value is equal to the specified other value, a negative number if it's less than other,
      * or a positive number if it's greater than other.
      */
-    @SymbolName("Kotlin_Char_compareTo_Char")
+    @CoolIntrinsic(IntrinsicKind.COMPARE_TO)
     external public override fun compareTo(other: Char): Int
 
     /** Adds the other Int value to this value resulting a Char. */
-    @SymbolName("Kotlin_Char_plus_Int")
+    @CoolIntrinsic(IntrinsicKind.PLUS)
     external public operator fun plus(other: Int): Char
 
     /** Subtracts the other Char value from this value resulting an Int. */
-    @SymbolName("Kotlin_Char_minus_Char")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Char): Int
     /** Subtracts the other Int value from this value resulting a Char. */
-    @SymbolName("Kotlin_Char_minus_Int")
+    @CoolIntrinsic(IntrinsicKind.MINUS)
     external public operator fun minus(other: Int): Char
 
     /** Increments this value. */
-    @SymbolName("Kotlin_Char_inc")
+    @CoolIntrinsic(IntrinsicKind.INC)
     external public operator fun inc(): Char
     /** Decrements this value. */
-    @SymbolName("Kotlin_Char_dec")
+    @CoolIntrinsic(IntrinsicKind.DEC)
     external public operator fun dec(): Char
 
     /** Creates a range from this value to the specified [other] value. */
@@ -43,25 +46,25 @@ public class Char private constructor(
     }
 
     /** Returns the value of this character as a `Byte`. */
-    @SymbolName("Kotlin_Char_toByte")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public fun toByte(): Byte
     /** Returns the value of this character as a `Char`. */
-    @SymbolName("Kotlin_Char_toChar")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public fun toChar(): Char
     /** Returns the value of this character as a `Short`. */
-    @SymbolName("Kotlin_Char_toShort")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public fun toShort(): Short
     /** Returns the value of this character as a `Int`. */
-    @SymbolName("Kotlin_Char_toInt")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public fun toInt(): Int
     /** Returns the value of this character as a `Long`. */
-    @SymbolName("Kotlin_Char_toLong")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public fun toLong(): Long
     /** Returns the value of this character as a `Float`. */
-    @SymbolName("Kotlin_Char_toFloat")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public fun toFloat(): Float
     /** Returns the value of this character as a `Double`. */
-    @SymbolName("Kotlin_Char_toDouble")
+    @CoolIntrinsic(IntrinsicKind.PRIMITIVE_CAST)
     external public fun toDouble(): Double
 
     companion object {

@@ -38,7 +38,6 @@ import org.jetbrains.kotlin.konan.target.CompilerOutputKind
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.resolve.descriptorUtil.classId
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameUnsafe
-import org.jetbrains.kotlin.resolve.hasBackingField
 
 private val threadLocalAnnotationFqName = FqName("kotlin.native.ThreadLocal")
 private val sharedAnnotationFqName = FqName("kotlin.native.SharedImmutable")
@@ -723,8 +722,6 @@ internal class CodeGeneratorVisitor(val context: Context, val lifetimes: Map<IrE
 
     override fun visitFunction(declaration: IrFunction) {
         context.log{"visitFunction                  : ${ir2string(declaration)}"}
-
-        if (intrinsicGenerator.tryGenerate(declaration)) return
 
         val body = declaration.body
 
@@ -2098,23 +2095,17 @@ internal class CodeGeneratorVisitor(val context: Context, val lifetimes: Map<IrE
 
     private fun evaluateFunctionCall(callee: IrCall, args: List<LLVMValueRef>,
                                      resultLifetime: Lifetime): LLVMValueRef {
-        val descriptor = callee.symbol.owner
+        val function = callee.symbol.owner
 
-        val argsWithContinuationIfNeeded = if (descriptor.isSuspend)
+        val argsWithContinuationIfNeeded = if (function.isSuspend)
                                                args + getContinuation()
                                            else args
-        if (descriptor.isIntrinsic) {
-            return evaluateIntrinsicCall(callee, argsWithContinuationIfNeeded)
-        }
-
-        when {
-            descriptor.origin == IrDeclarationOrigin.IR_BUILTINS_STUB ->
-                return evaluateOperatorCall(callee, argsWithContinuationIfNeeded)
-
-            descriptor is ConstructorDescriptor -> return evaluateConstructorCall(callee, argsWithContinuationIfNeeded)
-
-            else -> return evaluateSimpleFunctionCall(
-                    descriptor, argsWithContinuationIfNeeded, resultLifetime, callee.superQualifierSymbol?.owner)
+        return when {
+            function.isCoolIntrinsic -> intrinsicGenerator.evaluateCall(callee, args, functionGenerationContext)
+            function.isIntrinsic -> evaluateIntrinsicCall(callee, argsWithContinuationIfNeeded)
+            function.origin == IrDeclarationOrigin.IR_BUILTINS_STUB -> evaluateOperatorCall(callee, argsWithContinuationIfNeeded)
+            function is ConstructorDescriptor -> evaluateConstructorCall(callee, argsWithContinuationIfNeeded)
+            else -> evaluateSimpleFunctionCall(function, argsWithContinuationIfNeeded, resultLifetime, callee.superQualifierSymbol?.owner)
         }
     }
 

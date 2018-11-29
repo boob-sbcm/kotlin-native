@@ -98,5 +98,5 @@ internal annotation class PointsTo(vararg val onWhom: Int)
 
 
 @Target(AnnotationTarget.FUNCTION)
-@Retention(AnnotationRetention.SOURCE)
-internal annotation class CoolIntrinsic(val kind: IntrinsicKind)
+@Retention(AnnotationRetention.BINARY)
+internal annotation class CoolIntrinsic(val kind: String)

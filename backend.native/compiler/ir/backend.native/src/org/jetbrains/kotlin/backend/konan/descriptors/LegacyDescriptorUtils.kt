@@ -8,7 +8,6 @@ package org.jetbrains.kotlin.backend.konan.descriptors
 import org.jetbrains.kotlin.backend.common.atMostOne
 import org.jetbrains.kotlin.backend.konan.binaryTypeIsReference
 import org.jetbrains.kotlin.backend.konan.isObjCClass
-import org.jetbrains.kotlin.backend.konan.llvm.coolInstrinsicFqName
 import org.jetbrains.kotlin.backend.konan.serialization.isExported
 import org.jetbrains.kotlin.builtins.functions.FunctionClassDescriptor
 import org.jetbrains.kotlin.builtins.getFunctionalClassKind
@@ -236,6 +235,7 @@ fun CallableMemberDescriptor.findSourceFile(): SourceFile {
     }
 }
 
+internal val coolInstrinsicAnnotation = FqName("kotlin.native.internal.CoolIntrinsic")
 private val intrinsicAnnotation = FqName("kotlin.native.internal.Intrinsic")
 private val symbolNameAnnotation = FqName("kotlin.native.SymbolName")
 private val objCMethodAnnotation = FqName("kotlinx.cinterop.ObjCMethod")
@@ -249,6 +249,9 @@ internal val DeclarationDescriptor.isFrozen: Boolean
 
 internal val FunctionDescriptor.isIntrinsic: Boolean
     get() = this.annotations.hasAnnotation(intrinsicAnnotation)
+
+internal val FunctionDescriptor.isCoolIntrinsic: Boolean
+    get() = this.annotations.hasAnnotation(coolInstrinsicAnnotation)
 
 // TODO: coalesce all our annotation value getters into fewer functions.
 fun getAnnotationValue(annotation: AnnotationDescriptor): String? {
@@ -266,7 +269,7 @@ fun CallableMemberDescriptor.externalSymbolOrThrow(): String? {
 
     if (this.annotations.hasAnnotation(objCMethodAnnotation)) return null
 
-    if (this.annotations.hasAnnotation(coolInstrinsicFqName)) return null
+    if (this.annotations.hasAnnotation(coolInstrinsicAnnotation)) return null
 
-    throw Error("external function ${this} must have @SymbolName, @Intrinsic or @ObjCMethod annotation")
+    throw Error("external function ${this} must have @CoolIntrinsic, @SymbolName, @Intrinsic or @ObjCMethod annotation")
 }

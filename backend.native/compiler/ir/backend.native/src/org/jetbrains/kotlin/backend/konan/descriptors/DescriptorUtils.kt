@@ -81,6 +81,10 @@ internal fun IrSimpleFunction.resolveFakeOverride(): IrSimpleFunction {
 internal val FunctionDescriptor.isIntrinsic: Boolean
     get() = this.descriptor.isIntrinsic
 
+// TODO: removeme
+internal val FunctionDescriptor.isCoolIntrinsic: Boolean
+    get() = this.descriptor.isCoolIntrinsic
+
 internal val DeclarationDescriptor.isFrozen: Boolean
     get() = this.descriptor.isFrozen
 
