@@ -2235,7 +2235,7 @@ internal class CodeGeneratorVisitor(val context: Context, val lifetimes: Map<IrE
                 val arg0 = args[0]
                 val arg1 = args[1]
                 assert (arg0.type == arg1.type,
-                        { "Types are different: '${llvmtype2string(arg0.type)}' and '${llvmtype2string(arg1.type)}'" })
+                        { "Types are different: '${llvmtype2string(arg0.type)}' and '${llvmtype2string(arg1.type)}' ${functionGenerationContext.functionDescriptor?.functionName}" })
                 val type = LLVMGetTypeKind(arg0.type)
                 assert (type == LLVMTypeKind.LLVMFloatTypeKind || type == LLVMTypeKind.LLVMDoubleTypeKind,
                         { "Should be of floating point kind, not: '${llvmtype2string(arg0.type)}'"})

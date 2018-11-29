@@ -96,7 +96,7 @@ internal class Float32(val value: Float) : ConstValue {
 }
 
 internal class Float64(val value: Double) : ConstValue {
-    override val llvm = LLVMConstReal(LLVMFloatType(), value)!!
+    override val llvm = LLVMConstReal(LLVMDoubleType(), value)!!
 }
 
 internal class Zero(val type: LLVMTypeRef) : ConstValue {

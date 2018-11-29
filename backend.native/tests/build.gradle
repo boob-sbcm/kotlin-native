@@ -1041,6 +1041,12 @@ task initializers_correctOrder2(type: RunKonanTest) {
     source = "codegen/initializers/correctOrder2.kt"
 }
 
+// TODO: enable optimizations
+task arithmetic_basic(type: RunKonanTest) {
+    source = "codegen/arithmetic/basic.kt"
+    goldValue = "OK"
+}
+
 task bridges_test0(type: RunKonanTest) {
     goldValue = "42\n42\n"
     source = "codegen/bridges/test0.kt"

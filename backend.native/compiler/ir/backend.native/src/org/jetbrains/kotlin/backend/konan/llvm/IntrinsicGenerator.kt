@@ -6,7 +6,6 @@ import org.jetbrains.kotlin.backend.konan.descriptors.coolInstrinsicAnnotation
 import org.jetbrains.kotlin.backend.konan.reportCompilationError
 import org.jetbrains.kotlin.ir.declarations.IrFunction
 import org.jetbrains.kotlin.ir.expressions.IrCall
-import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 
 // TODO: Comment each entry
@@ -29,9 +28,9 @@ enum class IntrinsicKind {
     INV,
     PRIMITIVE_CAST,
     COMPARE_TO,
-    NOT,
-    TO_BITS,
-    FROM_BITS
+    NOT,            // Boolean.not()
+    TO_BITS,        // {Double, Float}.bits()
+    FROM_BITS       // {Double, Float}.fromBits()
 }
 
 internal class IntrinsicGenerator(val codegen: CodeGenerator) {
@@ -76,39 +75,25 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
             IntrinsicKind.COMPARE_TO ->     ::emitCompareTo
             IntrinsicKind.PRIMITIVE_CAST -> ::emitPrimitiveCast
             IntrinsicKind.NOT ->            ::emitNot
-            IntrinsicKind.FROM_BITS ->      ::emitFromBits
-            IntrinsicKind.TO_BITS ->        ::emitToBits
+            IntrinsicKind.FROM_BITS ->      ::emitReinterpret
+            IntrinsicKind.TO_BITS ->        ::emitReinterpret
         } (callee, args, functionGenerationContext)!!
 
-    private fun castArgs(builder: LLVMBuilderRef, args: List<LLVMValueRef>, destTy: LLVMTypeRef? = null): Pair<LLVMValueRef, LLVMValueRef> {
-        val first = args[0]
-        val second = args[1]
-        val unifiedType = destTy ?: findUnifiedType(first.type, second.type)
-        val firstResult = cast(builder, first, unifiedType)
-        val secondResult = cast(builder, second, unifiedType)
-        return firstResult to secondResult
-    }
-
-    // TODO: Unify with emitToBits?
-    private fun emitFromBits(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
+    private fun emitReinterpret(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with(functionGenerationContext) {
-            LLVMBuildBitCast(builder, args[0], callee.symbol.owner.llvmReturnType, "")
+            bitcast(callee.symbol.owner.llvmReturnType, args[0])
         }
 
-    private fun emitToBits(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
-        with(functionGenerationContext) {
-            LLVMBuildBitCast(builder, args[0], callee.symbol.owner.llvmReturnType, "")
-        }
 
     private fun emitNot(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with(functionGenerationContext) {
-            LLVMBuildNot(builder, args[0], "")
+            not(args[0])
         }
     
     private fun emitPlus(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with(functionGenerationContext) {
             val function = callee.symbol.owner
-            val (first, second) = castArgs(builder, args, function.llvmReturnType)
+            val (first, second) = castArgs(args, function.llvmReturnType)
             if (first.type.isFloatingPoint()) {
                 LLVMBuildFAdd(builder, first, second, "")
             } else {
@@ -118,82 +103,73 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
 
     private fun emitPrimitiveCast(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with(functionGenerationContext) {
-            val value = args[0]
-            val destTy = callee.symbol.owner.llvmReturnType
-            cast(builder, value, destTy)
+            cast(args[0], callee.symbol.owner.llvmReturnType)
         }
 
+    private fun emitShift(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext)
+            : Pair<LLVMValueRef, LLVMValueRef> = with (functionGenerationContext) {
+        val first = args[0]
+        val second = args[1]
+        val shift = if (first.type == int64Type) {
+            val tmp = LLVMBuildAnd(builder, second, Int32(63).llvm, "")
+            LLVMBuildZExt(builder, tmp, int64Type, "")
+        } else {
+            LLVMBuildAnd(builder, second, Int32(31).llvm, "")
+        }
+        Pair(first, shift!!)
+    }
+
+    // TODO: unify using `shift`
     private fun emitShl(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with(functionGenerationContext) {
-            val first = args[0]
-            val second = args[1]
-            val shift = if (first.type == int64Type) {
-                val tmp = LLVMBuildAnd(builder, second, Int32(63).llvm, "")
-                LLVMBuildZExt(builder, tmp, int64Type, "")
-            } else {
-                LLVMBuildAnd(builder, second, Int32(31).llvm, "")
-            }
+            val (first, shift) = emitShift(callee, args, functionGenerationContext)
             LLVMBuildShl(builder, first, shift, "")
         }
 
     private fun emitShr(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with(functionGenerationContext) {
-            val first = args[0]
-            val second = args[1]
-            val shift = if (first.type == int64Type) {
-                val tmp = LLVMBuildAnd(builder, second, Int32(63).llvm, "")
-                LLVMBuildZExt(builder, tmp, int64Type, "")
-            } else {
-                LLVMBuildAnd(builder, second, Int32(31).llvm, "")
-            }
+            val (first, shift) = emitShift(callee, args, functionGenerationContext)
             LLVMBuildAShr(builder, first, shift, "")
         }
 
     private fun emitUshr(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with(functionGenerationContext) {
-            val first = args[0]
-            val second = args[1]
-            val shift = if (first.type == int64Type) {
-                val tmp = LLVMBuildAnd(builder, second, Int32(63).llvm, "")
-                LLVMBuildZExt(builder, tmp, int64Type, "")
-            } else {
-                LLVMBuildAnd(builder, second, Int32(31).llvm, "")
-            }
+            val (first, shift) = emitShift(callee, args, functionGenerationContext)
             LLVMBuildLShr(builder, first, shift, "")
         }
 
     private fun emitAnd(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with(functionGenerationContext) {
             val function = callee.symbol.owner
-            val (first, second) = castArgs(builder, args, function.llvmReturnType)
-            LLVMBuildAnd(builder, first, second, "")
+            val (first, second) = castArgs(args, function.llvmReturnType)
+            and(first, second)
         }
 
     private fun emitOr(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with(functionGenerationContext) {
             val function = callee.symbol.owner
-            val (first, second) = castArgs(builder, args, function.llvmReturnType)
-            LLVMBuildOr(builder, first, second, "")
+            val (first, second) = castArgs(args, function.llvmReturnType)
+            or(first, second)
         }
 
     private fun emitXor(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with(functionGenerationContext) {
             val function = callee.symbol.owner
-            val (first, second) = castArgs(builder, args, function.llvmReturnType)
-            LLVMBuildXor(builder, first, second, "")
+            val (first, second) = castArgs(args, function.llvmReturnType)
+            xor(first, second)
         }
 
     private fun emitInv(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with(functionGenerationContext) {
             val first = args[0]
             val mask = makeConstOfType(first.type, -1)
-            LLVMBuildXor(builder, first, mask, "")
+            xor(first, mask)
         }
 
     private fun emitMinus(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with (functionGenerationContext) {
             val function = callee.symbol.owner
-            val (first, second) = castArgs(builder, args, function.llvmReturnType)
+            val (first, second) = castArgs(args, function.llvmReturnType)
             if (first.type.isFloatingPoint()) {
                 LLVMBuildFSub(builder, first, second, "")
             } else {
@@ -204,7 +180,7 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
     private fun emitTimes(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with (functionGenerationContext) {
             val function = callee.symbol.owner
-            val (first, second) = castArgs(builder, args, function.llvmReturnType)
+            val (first, second) = castArgs(args, function.llvmReturnType)
             if (first.type.isFloatingPoint()) {
                 LLVMBuildFMul(builder, first, second, "")
             } else {
@@ -214,7 +190,6 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
 
     private fun emitDiv(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with (functionGenerationContext) {
-            val function = callee.symbol.owner
             val divider = args[1]
             if (divider.type.isFloatingPoint()) {
                 return emitDivNoThrow(callee, args, functionGenerationContext)
@@ -222,29 +197,24 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
             // TODO: debug info
             val validArgBb = basicBlock(locationInfo = null)
             val invalidArgBb = basicBlock(locationInfo = null)
-
-            val isZero = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntEQ, divider, Zero(divider.type).llvm, "")!!
+            val isZero = icmpEq(divider, Zero(divider.type).llvm)
             condBr(isZero, invalidArgBb, validArgBb)
 
-            LLVMPositionBuilderAtEnd(builder, invalidArgBb)
+            positionAtEnd(invalidArgBb)
             val throwArthExc = codegen.llvmFunction(context.ir.symbols.throwArithmeticException.owner)
-            val nullObj = listOf(codegen.kNullObjHeaderPtrPtr) // TODO: is it correct?
-            LLVMBuildCall(builder, throwArthExc, nullObj.toCValues(), nullObj.size, "")
-            LLVMBuildUnreachable(builder)
+            // TODO: FIXME
+//            call(throwArthExc, listOf(codegen.kNullObjHeaderPtrPtr), verbatim = true) // TODO: is it correct?
+            unreachable()
 
-            LLVMPositionBuilderAtEnd(builder, validArgBb)
-            val (first, second) = castArgs(builder, args, function.llvmReturnType)
-            if (first.type.isFloatingPoint()) {
-                LLVMBuildFDiv(builder, first, second, "")
-            } else {
-                LLVMBuildSDiv(builder, first, second, "")
-            }
+            // No need for exit basic block.
+            positionAtEnd(validArgBb)
+            emitDivNoThrow(callee, args, functionGenerationContext)
         }
 
     private fun emitDivNoThrow(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with (functionGenerationContext) {
             val function = callee.symbol.owner
-            val (first, second) = castArgs(builder, args, function.llvmReturnType)
+            val (first, second) = castArgs(args, function.llvmReturnType)
             if (first.type.isFloatingPoint()) {
                 LLVMBuildFDiv(builder, first, second, "")
             } else {
@@ -255,7 +225,7 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
     private fun emitRem(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with (functionGenerationContext) {
             val function = callee.symbol.owner
-            val (first, second) = castArgs(builder, args, function.llvmReturnType)
+            val (first, second) = castArgs(args, function.llvmReturnType)
             if (first.type.isFloatingPoint()) {
                 LLVMBuildFRem(builder, first, second, "")
             } else {
@@ -287,18 +257,15 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
 
     private fun emitUnaryPlus(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with (functionGenerationContext) {
-            val value = args[0]
-            val destTy = callee.symbol.owner.llvmReturnType
-            cast(builder, value, destTy)
+            cast(args[0], callee.symbol.owner.llvmReturnType)
         }
 
     private fun emitUnaryMinus(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with (functionGenerationContext) {
-            val value = args[0]
             val destTy = callee.symbol.owner.llvmReturnType
-            val first = cast(builder, value, destTy)
-            val const0 = makeConstOfType(first.type, 0)
-            if (first.type.isFloatingPoint()) {
+            val first = cast(args[0], destTy)
+            val const0 = makeConstOfType(destTy, 0)
+            if (destTy.isFloatingPoint()) {
                 LLVMBuildFSub(builder, const0, first, "")
             } else {
                 LLVMBuildSub(builder, const0, first, "")
@@ -307,18 +274,18 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
 
     private fun emitCompareTo(callee: IrCall, args: List<LLVMValueRef>, functionGenerationContext: FunctionGenerationContext) =
         with (functionGenerationContext) {
-            val (first, second) = castArgs(builder, args)
+            val (first, second) = castArgs(args)
             val equal: LLVMValueRef
             val less: LLVMValueRef
             if (first.type.isFloatingPoint()) {
-                equal = LLVMBuildFCmp(builder, LLVMRealPredicate.LLVMRealOEQ, first, second, "")!!
-                less = LLVMBuildFCmp(builder, LLVMRealPredicate.LLVMRealOLT, first, second, "")!!
+                equal = fcmpEq(first, second)
+                less = fcmpLt(first, second)
             } else {
-                equal = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntEQ, first, second, "")!!
-                less = LLVMBuildICmp(builder, LLVMIntPredicate.LLVMIntSLT, first, second, "")!!
+                equal = icmpEq(first, second)
+                less = icmpLt(first, second)
             }
-            val tt = LLVMBuildSelect(builder, less, Int32(-1).llvm, Int32(1).llvm, "")
-            LLVMBuildSelect(builder, equal, Int32(0).llvm, tt, "")
+            val tmp = LLVMBuildSelect(builder, less, Int32(-1).llvm, Int32(1).llvm, "")
+            LLVMBuildSelect(builder, equal, Int32(0).llvm, tmp, "")
         }
 
     private fun makeConstOfType(type: LLVMTypeRef, value: Int): LLVMValueRef = when (type) {
@@ -331,12 +298,10 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
         else -> context.reportCompilationError("Unexpected primitive type: $type")
     }
 
-    // Assuming that both types are i*
-    private fun compareIntegralTypes(firstTy: LLVMTypeRef, secondTy: LLVMTypeRef): Int {
-        return integralTypesOrder.indexOf(firstTy).compareTo(integralTypesOrder.indexOf(secondTy))
-    }
+    private fun compareIntegralTypes(firstTy: LLVMTypeRef, secondTy: LLVMTypeRef) =
+            integralTypesOrder.indexOf(firstTy).compareTo(integralTypesOrder.indexOf(secondTy))
 
-    private fun cast(builder: LLVMBuilderRef, value: LLVMValueRef, destTy: LLVMTypeRef): LLVMValueRef {
+    private fun FunctionGenerationContext.cast(value: LLVMValueRef, destTy: LLVMTypeRef): LLVMValueRef {
         if (value.type == destTy) return value
 
         if (value.type == floatType && destTy == doubleType) {
@@ -350,35 +315,30 @@ internal class IntrinsicGenerator(val codegen: CodeGenerator) {
         }
         val compResult = compareIntegralTypes(value.type, destTy)
         return when {
-            compResult < 0 -> LLVMBuildSExt(builder, value, destTy, "")!!
-            compResult > 0 -> LLVMBuildTrunc(builder, value, destTy, "")!!
+            compResult < 0 -> sext(value, destTy)
+            compResult > 0 -> trunc(value, destTy)
             else -> value
         }
     }
 
-    private fun findUnifiedType(firstTy: LLVMTypeRef, secondTy: LLVMTypeRef): LLVMTypeRef {
-        // NB: Order of `if` matters!
-        if (firstTy == doubleType || secondTy == doubleType) {
-            return doubleType
-        }
-        if (firstTy == floatType || secondTy == floatType) {
-            return floatType
-        }
-        if (firstTy == int64Type || secondTy == int64Type) {
-            return int64Type
-        }
-        if (firstTy == int32Type || secondTy == int32Type) {
-            return int32Type
-        }
-        if (firstTy == int16Type || secondTy == int16Type) {
-            return int16Type
-        }
-        if (firstTy == int8Type || secondTy == int8Type) {
-            return int8Type
-        }
-        if (firstTy == int1Type || secondTy == int1Type) {
-            return int1Type
-        }
-        error("Unexpected types: $firstTy $secondTy")
+    private fun FunctionGenerationContext.castArgs(args: List<LLVMValueRef>, destTy: LLVMTypeRef? = null): Pair<LLVMValueRef, LLVMValueRef> {
+        val first = args[0]
+        val second = args[1]
+        val unifiedType = destTy ?: findUnifiedType(first.type, second.type)
+        val firstResult = cast(first, unifiedType)
+        val secondResult = cast(second, unifiedType)
+        return firstResult to secondResult
     }
+
+    private fun findUnifiedType(firstTy: LLVMTypeRef, secondTy: LLVMTypeRef) =
+        when {
+            firstTy == doubleType || secondTy == doubleType -> doubleType
+            firstTy == floatType || secondTy == floatType -> floatType
+            firstTy == int64Type || secondTy == int64Type -> int64Type
+            firstTy == int32Type || secondTy == int32Type -> int32Type
+            firstTy == int16Type || secondTy == int16Type -> int16Type
+            firstTy == int8Type || secondTy == int8Type -> int8Type
+            firstTy == int1Type || secondTy == int1Type -> int1Type
+            else -> context.reportCompilationError("Unexpected types: $firstTy $secondTy")
+        }
 }
